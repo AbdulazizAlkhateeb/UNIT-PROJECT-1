@@ -1,11 +1,14 @@
 class Bean: 
 
-    def __init__(self, bean_name:str, region:str, notes:list, roast:str, is_available: bool = True):
+    def __init__(self, bean_name:str, region:str, notes:list, roast_level:str,price_per_kg:float, is_available: bool = True):
         self.set_name(bean_name)
         self.set_region(region)
         self.set_notes(notes)        
-        self.set_roast(roast)
+        self.set_roast(roast_level)
+        self.set_price_per_kg(price_per_kg)
         self.is_available = is_available
+
+
 
 
 
@@ -24,6 +27,9 @@ class Bean:
 
     def get_roast(self):
         return self.__roast
+    
+    def get_price_per_kg(self):
+        return self.__price_per_kg
 
 #Setters
 
@@ -46,6 +52,13 @@ class Bean:
             self.__notes = notes
         else:
             raise ValueError("notes must be a list")
+        
+
+    def set_price_per_kg(self, price_per_kg):
+        if isinstance(price_per_kg, float) and price_per_kg>0:
+            self.__price_per_kg=price_per_kg
+        else:
+            raise ValueError("The price must be float")
 
 
     def set_roast(self, roast):
@@ -56,15 +69,15 @@ class Bean:
 
 
 
-def change_availablty(self, change_available: bool):
-    if self.is_available == True and change_available ==True or self.is_available== False and change_available== False:
-        print("Nothing is change")
+    def change_availability(self, availability: bool):
+        if not isinstance(availability, bool):
+            raise ValueError("availability must be boolean")
 
-    else: 
-        self.is_available == change_available
-        print("Changeded successfully")
-
-
+        if self.is_available == availability:
+            print("no change")
+        else:
+            self.is_available = availability
+            print("availability updated")
 
 
 
