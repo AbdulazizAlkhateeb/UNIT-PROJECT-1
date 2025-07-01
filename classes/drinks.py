@@ -1,19 +1,19 @@
-from recipe import Recipe
+from classes.recipe import Recipe
+from classes.rating import Rating
 
 
 class Drink:
-    def __init__(self, drink_name: str,price:float, recipe:Recipe , sizes:list, ratings):
+    def __init__(self, drink_name: str,price:float, recipe:Recipe , ratings:list):
         self.set_name(drink_name)
         self.set_price(price)
         self.set_recipe(recipe)
-        self.set_sizes(sizes)
+        # self.set_sizes(sizes)
         self.set_ratings(ratings if ratings is not None else [])
 
+    def __str__(self):
+        return f"drink_name = {self.__drink_name}, price = {self.__price}, ratings = {self.__ratings}, (recipe = {self.__recipe})"
 
-
-
-
-#Getters
+    #Getters
     def get_name(self):
         return self.__drink_name
 
@@ -38,7 +38,7 @@ class Drink:
         if isinstance(drink_name, str):
             self.__drink_name = drink_name
         else:
-            raise ValueError("name must be a string")
+            raise ValueError("name must be string")
 
 
 
@@ -47,7 +47,7 @@ class Drink:
         if isinstance(price, float) and price > 0:
             self.__price = price
         else:
-            raise ValueError("price must be a positive number")
+            raise ValueError("price must be positive number")
 
 
 
@@ -66,14 +66,47 @@ class Drink:
 
 
 
-    # def set_ratings(self, ratings):
+    def set_ratings(self, ratings:list):
+        if isinstance(ratings, list):
+            self.__ratings= ratings
+        else:
+            raise ValueError("ratings must be list")
+        
 
 
 
+    def add_rating(self, score: int, description:str):
+        # rating_list =[]
+        new_rating=Rating(self.get_name(), score, description)
+        self.__ratings.append(new_rating)
+        
+        
+ 
+
+    def get_avg_rating(self) -> float:
+        if not self.__ratings:
+            return 0.0
+
+        total_score = sum(rate.get_score() for rate in self.__ratings)
+        avg_score = total_score / len(self.__ratings)
+        return round(avg_score, 2)
 
 
+    def to_dict(self):
+        return {
+            "drink_name": self.__drink_name,
+            "price": self.__price,
+            "recipe": self.__recipe.to_dict(),
+            "ratings": [rate.to_dict() for rate in self.__ratings]
+        }
 
-    # def add_rating(self, score: int):
-
-    # def get_avg_rating(self):
-
+    @classmethod
+    def from_dict(cls, data):
+        recipe = Recipe.from_dict(data["recipe"])
+        ratings = [Rating.from_dict(rate) for rate in data["ratings"]]
+        return cls(
+            data["drink_name"],
+            data["price"],
+            recipe,
+            ratings
+        )
