@@ -1,16 +1,16 @@
 class Beans: 
 
-    def __init__(self, bean_name:str, region:str, notes:list, roast_level:str,price_per_kg:float, is_available: bool = True):
+    def __init__(self, bean_name:str, region:str, notes:list, roast_level:str,price_per_kg:float, is_available: bool = True, stock_grams: float = 0):
         self.set_name(bean_name)
         self.set_region(region)
         self.set_notes(notes)        
         self.set_roast(roast_level)
         self.set_price_per_kg(price_per_kg)
         self.is_available = is_available
+        self.set_stock_grams(stock_grams)
 
     def __str__(self):
         return  f"bean_name = {self.__bean_name}, region = {self.__region}, note = {self.__notes}"
-        #return f"bean_name = {self.__bean_name}, region = {self.__region}, note"
 
     #Getters
     def get_name(self):
@@ -30,6 +30,9 @@ class Beans:
     
     def get_price_per_kg(self):
         return self.__price_per_kg
+
+    def get_stock_grams(self):
+        return self.__stock_grams
 
 #Setters
 
@@ -67,6 +70,28 @@ class Beans:
         else:
             raise ValueError("roast must be one of: light, medium, dark")
 
+    def set_stock_grams(self, grams):
+        if isinstance(grams, (int, float)) and grams >= 0:
+            self.__stock_grams = grams
+        else:
+            raise ValueError("stock_grams must be non-negative number")
+
+
+
+    def use_grams(self, grams_used: float):
+        if not isinstance(grams_used, (int, float)) or grams_used <= 0:
+            raise ValueError("Used grams must be positive number")
+
+
+        self.__stock_grams -= grams_used
+
+        if self.__stock_grams <= 0:
+            self.__stock_grams = 0
+            self.is_available = False
+            print( "Stock depleted. Marked as unavailable." )
+        else:
+            print(f"{grams_used}g used. Remaining stock: {self.__stock_grams}g")
+
 
 
     def change_availability(self, availability: bool):
@@ -79,6 +104,11 @@ class Beans:
             self.is_available = availability
             print("availability updated")
 
+    def get_bean_info(self):
+        return f"Bean: {self.__bean_name}, Region: {self.__region}, Roast: {self.__roast}, Price/kg: {self.__price_per_kg} SR, Stock in grams: {self.__stock_grams}"
+
+
+
 
     def to_dict(self):
         return {
@@ -87,9 +117,9 @@ class Beans:
             "notes": self.__notes,
             "roast_level": self.__roast,
             "price_per_kg": self.__price_per_kg,
-            "is_available": self.is_available
+            "is_available": self.is_available,
+            "stock_grams": self.__stock_grams
         }
-
 
     @classmethod
     def from_dict(cls, data):
@@ -99,8 +129,6 @@ class Beans:
             data["notes"],
             data["roast_level"],
             data["price_per_kg"],
-            data["is_available"]
-            )
-
-
-
+            data["is_available"],
+            data.get("stock_grams", 0)  # default to 0 if missing
+        )
