@@ -3,7 +3,7 @@ import os
 import json
 
 # API Key
-genai.configure(api_key="AIzaSyA7c6bu4aMEJE2wjQ4FhSPOIdZ7AhDNQl8")
+genai.configure(api_key="")
 
 
 def improve_recipe_with_gemini(recipe: dict, review_text: str):
