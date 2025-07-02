@@ -3,15 +3,14 @@ from classes.rating import Rating
 
 
 class Drink:
-    def __init__(self, drink_name: str,price:float, recipe:Recipe , ratings:list):
+    def __init__(self, drink_name: str, price:float, recipe:Recipe , ratings:list):
         self.set_name(drink_name)
         self.set_price(price)
         self.set_recipe(recipe)
-        # self.set_sizes(sizes)
         self.set_ratings(ratings if ratings is not None else [])
 
     def __str__(self):
-        return f"drink_name = {self.__drink_name}, price = {self.__price}, ratings = {self.__ratings}, (recipe = {self.__recipe})"
+        return f"drink_name = {self.__drink_name}, price = {self.__price}, ratings = {self.get_ratings()}, (recipe = {self.__recipe})"
 
     #Getters
     def get_name(self):
@@ -23,11 +22,15 @@ class Drink:
     def get_recipe(self):
         return self.__recipe
 
-    def get_sizes(self) -> list:
-        return self.__sizes
+
 
     def get_ratings(self) -> list:
-        return self.__ratings     
+        for rating in self.__ratings:
+            return rating
+        return []
+        # return self.__ratings
+
+
 
 
 
@@ -59,19 +62,12 @@ class Drink:
 
 
 
-
-    # def set_sizes(self, sizes):
-
-
-
-
-
     def set_ratings(self, ratings:list):
         if isinstance(ratings, list):
             self.__ratings= ratings
         else:
             raise ValueError("ratings must be list")
-        
+
 
 
 
@@ -81,7 +77,7 @@ class Drink:
         self.__ratings.append(new_rating)
         
         
- 
+ #--
 
     def get_avg_rating(self) -> float:
         if not self.__ratings:
@@ -90,6 +86,13 @@ class Drink:
         total_score = sum(rate.get_score() for rate in self.__ratings)
         avg_score = total_score / len(self.__ratings)
         return round(avg_score, 2)
+
+    def get_drink_info(self):
+        avg_rating = self.get_avg_rating()
+        avg_text = "No ratings yet" if avg_rating == 0.0 else avg_rating
+        last_description = self.__ratings[-1].get_description() if self.__ratings else "No ratings yet"
+        return f"Drink: {self.__drink_name}, Price: {self.__price}, Average Rating: {avg_text}, Last Review: {last_description}"
+
 
 
     def to_dict(self):
