@@ -28,7 +28,8 @@ def add_bean_or_drink():
         notes = input("Notes (comma separated): ").split(",")
         roast = input("Roast level (light/medium/dark): ")
         price = float(input("Price per kg: "))
-        beans.append(Beans(name, region, notes, roast, price))
+        stock = float(input("stock per g: "))
+        beans.append(Beans(name, region, notes, roast, price,True,stock ))
         print(Fore.GREEN + "Bean added.\n" + Style.RESET_ALL)
 
     elif choice == "2":
@@ -72,13 +73,13 @@ def make_drink():
 
     drink = match[0]
     recipe = drink.get_recipe()
-    bean = recipe.get_bean()
-    grind_needed = recipe.get_grind_coffee_grams()
+    bean = recipe.get_grind_coffee_grams()
+    grind_needed = recipe.get_bean()
 
     # Check coffee availability
-    if bean.get_stock_grams() < grind_needed:
-        print(Fore.RED + f"Not enough beans available for {bean.get_name()}.\n" + Style.RESET_ALL)
-        return
+    # if bean.get_stock_grams() < grind_needed:
+    #     print(Fore.RED + f"Not enough beans available for {bean.get_name()}.\n" + Style.RESET_ALL)
+    #     return
 
     print(Fore.YELLOW + f"\nRequired ingredients for: {drink.get_name()}")
     print(Fore.CYAN + f"- Coffee grams: {recipe.get_grind_coffee_grams()}g")
@@ -92,9 +93,9 @@ def make_drink():
     print(Fore.YELLOW + "\nFollow the steps below. Press Enter to continue after each step:" + Style.RESET_ALL)
     for index, step in enumerate(recipe.get_steps(), 1):
         print(Fore.BLUE + f"Step {index}: {step}" + Style.RESET_ALL)
-        input(Fore.RED + ">> Press Enter to continue...\n" + Style.RESET_ALL)
-
-    bean.use_beans(grind_needed)
+        input(Fore.RED + ">> Press Enter to continue..." + Style.RESET_ALL)
+    #
+    # bean.use_beans(grind_needed)
 
 
     user_choice = input("Would you like to add a rating? (y/n): ")
