@@ -1,7 +1,6 @@
 from classes.beans import Beans
 
 
-
 class Recipe:
     GRIND_SIZE_MAX = 30
     GRIND_SIZE_MIN = 1
@@ -88,10 +87,22 @@ class Recipe:
         else:
             raise ValueError("steps must be a list")
 
+
+
         
 
 
 #-----
+    def get_water_needed(self):
+        grind= self.__grind_coffee_grams
+        ratio_parts = self.__ratio.split(":")
+        ratio = float(ratio_parts[1])
+        return round(grind * ratio, 2)
+
+
+
+
+
     def to_dict(self):
         return {
             "bean": self.__bean.to_dict(),
