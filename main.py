@@ -4,7 +4,7 @@ from classes.drinks import Drink
 from classes.recipe import Recipe
 from classes.beans import Beans
 from utils.file_handler import load_json, save_json
-from utils.Ai_API import improve_recipe_with_gemini
+
 
 
 DRINKS_FILE = "./data/drinks.json"
