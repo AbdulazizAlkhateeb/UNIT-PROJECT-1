@@ -6,13 +6,11 @@ from classes.beans import Beans
 from utils.file_handler import load_json, save_json
 
 
-
 DRINKS_FILE = "./data/drinks.json"
 BEANS_FILE = "./data/beans.json"
 
-drinks = [Drink.from_dict(d) for d in load_json(DRINKS_FILE)]
-beans = [Beans.from_dict(b) for b in load_json(BEANS_FILE)]
-
+drinks_list = [Drink.from_dict(d) for d in load_json(DRINKS_FILE)]
+beans_list = [Beans.from_dict(b) for b in load_json(BEANS_FILE)]
 
 
 
@@ -23,38 +21,45 @@ def add_bean_or_drink():
     choice = input("[1] Bean  [2] Drink: ")
 
     if choice == "1":
-        name = input("Bean name: ")
-        region = input("Region: ")
-        notes = input("Notes (comma separated): ").split(",")
-        roast = input("Roast level (light/medium/dark): ")
-        price = float(input("Price per kg: "))
-        stock = float(input("stock per g: "))
-        beans.append(Beans(name, region, notes, roast, price,True,stock ))
-        print(Fore.GREEN + "Bean added.\n" + Style.RESET_ALL)
+        try:
+            name = input("Bean name: ")
+            region = input("Region: ")
+            notes = input("Notes (comma separated): ").split(",")
+            roast = input("Roast level (light/medium/dark): ")
+            price = float(input("Price per kg: "))
+            stock_grams = float(input("stock grams in g: "))
+            beans_list.append(Beans(name, region, notes, roast, price,True , stock_grams))
+            print(Fore.GREEN + "Bean added.\n" + Style.RESET_ALL)
+        except Exception as e:
+            print(e)
 
     elif choice == "2":
-        name = input("Drink name: ")
-        price = float(input("Price: "))
+        try:
+            name = input("Drink name: ")
+            price = float(input("Price: "))
 
-        for index, bean in enumerate(beans):
-            print(f"-{index+1} {bean.get_name()} ({bean.get_region()})")
-        bean_index = int(input("Select bean: "))
-        bean = beans[bean_index-1]
+            for index, bean in enumerate(beans_list):
+                print(f"-{index +1} {bean.get_name()} ({bean.get_region()})")
+            bean_index = int(input("Select bean: "))
+            bean = beans_list[bean_index -1]
 
-        grind = int(input("Grind coffe needed for 1 Drink in g: "))
-        milk = int(input("Milk in ml, if none enter 0: "))
-        ratio = input("Ratio (e.g., 1:2.5): ")
-        size = int(input("Grind size (1-30) \"1\" is fine \"30\" is coarse: "))
-        steps = []
-        print("Enter steps. Type 'done' to finish:")
-        while True:
-            step = input("Step: ")
-            if step.lower() == 'done': break
-            steps.append(step)
+            grind = int(input("Grind coffe needed for 1 Drink in g: "))
+            milk = int(input("Milk in ml, if none enter 0: "))
+            ratio = input("Ratio (e.g., 1:2.5): ")
+            size = int(input("Grind size (1-30) \"1\" is fine \"30\" is coarse: "))
+            steps = []
+            print("Enter steps. Type 'done' to finish:")
+            while True:
+                step = input("Step: ")
+                if step.lower() == 'done': break
+                steps.append(step)
 
-        recipe = Recipe(bean, grind, milk, ratio, size, steps)
-        drinks.append(Drink(name, price, recipe, []))
-        print(Fore.GREEN + "Drink added.\n" + Style.RESET_ALL)
+            recipe = Recipe(bean, grind, milk, ratio, size, steps)
+            drinks_list.append(Drink(name, price, recipe, []))
+            print(Fore.GREEN + "Drink added.\n" + Style.RESET_ALL)
+        except Exception as e:
+            print(e)
+
 
 
 
@@ -63,23 +68,24 @@ def add_bean_or_drink():
 
 
 def make_drink():
-    for drink in drinks:
+    for drink in drinks_list:
         print(Fore.CYAN + drink.get_name() + Style.RESET_ALL)
     name = input("Enter drink name: ")
-    match = [drink for drink in drinks if name.lower() in drink.get_name().lower()]
+    match = [drink for drink in drinks_list if name.lower() in drink.get_name().lower()]
     if not match:
         print(Fore.RED + "Drink not found.\n" + Style.RESET_ALL)
         return
 
     drink = match[0]
     recipe = drink.get_recipe()
-    bean = recipe.get_grind_coffee_grams()
-    grind_needed = recipe.get_bean()
+    bean = recipe.get_bean()
+    grind_needed = recipe.get_grind_coffee_grams()
+    all_stok= bean.get_stock_grams()
 
     # Check coffee availability
-    # if bean.get_stock_grams() < grind_needed:
-    #     print(Fore.RED + f"Not enough beans available for {bean.get_name()}.\n" + Style.RESET_ALL)
-    #     return
+    if bean.get_stock_grams() < grind_needed:
+        print(Fore.RED + f"Not enough beans available for {bean.get_name()}.\n" + Style.RESET_ALL)
+        return
 
     print(Fore.YELLOW + f"\nRequired ingredients for: {drink.get_name()}")
     print(Fore.CYAN + f"- Coffee grams: {recipe.get_grind_coffee_grams()}g")
@@ -89,13 +95,13 @@ def make_drink():
     print(f"- Grind size: {recipe.get_grind_size()}")
     print(f"- Bean: {recipe.get_bean().get_name()} ")
 
+    bean.use_grams(grind_needed)
+
 
     print(Fore.YELLOW + "\nFollow the steps below. Press Enter to continue after each step:" + Style.RESET_ALL)
     for index, step in enumerate(recipe.get_steps(), 1):
-        print(Fore.BLUE + f"Step {index}: {step}" + Style.RESET_ALL)
-        input(Fore.RED + ">> Press Enter to continue..." + Style.RESET_ALL)
-    #
-    # bean.use_beans(grind_needed)
+        print(Fore.BLUE + f"Step {index}:{ Style.RESET_ALL} {step}" )
+        input(Fore.GREEN + ">> Press Enter to continue..." + Style.RESET_ALL)
 
 
     user_choice = input("Would you like to add a rating? (y/n): ")
@@ -115,10 +121,10 @@ def rate_drink(drink: Drink):
 
 
 def show_all_drinks():
-    if not drinks:
+    if not drinks_list:
         print(Fore.RED + "No drinks available.\n" + Style.RESET_ALL)
         return
-    for index, drink in enumerate(drinks, 1):
+    for index, drink in enumerate(drinks_list, 1):
         print(Fore.BLUE + f"[{index}] {drink.get_drink_info()}" + Style.RESET_ALL)
 
     input(Fore.RED + ">> Press Enter to continue...\n" + Style.RESET_ALL)
@@ -130,28 +136,33 @@ def show_all_drinks():
 def delete_drink():
     show_all_drinks()
     name = input("Enter drink name to delete: ")
-    match = [drink for drink in drinks if name.lower() in drink.get_name().lower()]
+    match = [drink for drink in drinks_list if name.lower() in drink.get_name().lower()]  # fix here
     if not match:
         print(Fore.RED + "Drink not found.\n" + Style.RESET_ALL)
         return
-    drinks.remove(match[0])
+    drinks_list.remove(match[0])
     print(Fore.GREEN + "Drink deleted.\n" + Style.RESET_ALL)
 
 
 def show_all_beans():
-    if not beans:
+    if not beans_list:
         print(Fore.RED + "No beans available.\n" + Style.RESET_ALL)
         return
-    for index, b in enumerate(beans, 1):
+    for index, b in enumerate(beans_list, 1):
         print(Fore.CYAN + f"[{index}] {b.get_bean_info()}" + Style.RESET_ALL)
     input(Fore.RED + ">> Press Enter to continue...\n" + Style.RESET_ALL)
 
+
+
+
+
+
 def show_all_ratings():
-    if not drinks:
+    if not drinks_list:
         print(Fore.RED + "No drinks available.\n" + Style.RESET_ALL)
         return
 
-    for drink in drinks:
+    for drink in drinks_list:
         print(Fore.YELLOW + f"\n{drink.get_name()}:" + Style.RESET_ALL)
 
         ratings = drink.get_ratings()
@@ -194,9 +205,8 @@ def show_all_ratings():
 
 
 def save_all():
-    save_json(DRINKS_FILE, [drink.to_dict() for drink in drinks])
-    save_json(BEANS_FILE, [bean.to_dict() for bean in beans])
-
+    save_json(DRINKS_FILE, [drink.to_dict() for drink in drinks_list])
+    save_json(BEANS_FILE, [bean.to_dict() for bean in beans_list])
 
 
 

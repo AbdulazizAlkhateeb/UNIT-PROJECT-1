@@ -10,7 +10,7 @@ class Drink:
         self.set_ratings(ratings if ratings is not None else [])
 
     def __str__(self):
-        return f"drink_name = {self.__drink_name}, price = {self.__price}, ratings = {self.get_ratings()}, (recipe = {self.__recipe})"
+        return f"drink_name = {self.__drink_name}, price = {self.__price}, ratings = {self.get_ratings_obj()}, (recipe = {self.__recipe})"
 
     #Getters
     def get_name(self):
@@ -22,9 +22,10 @@ class Drink:
     def get_recipe(self):
         return self.__recipe
 
-
-
     def get_ratings(self) -> list:
+        return self.__ratings
+
+    def get_ratings_obj(self):
         for rating in self.__ratings:
             return rating
         return []

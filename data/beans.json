@@ -2,7 +2,11 @@
   {
     "bean_name": "Ethiopian Yirgacheffe",
     "region": "Ethiopia",
-    "notes": ["floral", "citrus", "tea-like"],
+    "notes": [
+      "floral",
+      "citrus",
+      "tea-like"
+    ],
     "roast_level": "light",
     "price_per_kg": 105.0,
     "is_available": true,
@@ -11,7 +15,11 @@
   {
     "bean_name": "Colombian Supremo",
     "region": "Colombia",
-    "notes": ["chocolate", "nutty", "smooth"],
+    "notes": [
+      "chocolate",
+      "nutty",
+      "smooth"
+    ],
     "roast_level": "medium",
     "price_per_kg": 95.0,
     "is_available": true,
@@ -20,7 +28,11 @@
   {
     "bean_name": "Sumatra Mandheling",
     "region": "Indonesia",
-    "notes": ["earthy", "spice", "heavy body"],
+    "notes": [
+      "earthy",
+      "spice",
+      "heavy body"
+    ],
     "roast_level": "dark",
     "price_per_kg": 100.0,
     "is_available": true,
@@ -29,7 +41,11 @@
   {
     "bean_name": "Kenya AA",
     "region": "Kenya",
-    "notes": ["berry", "winey", "bright acidity"],
+    "notes": [
+      "berry",
+      "winey",
+      "bright acidity"
+    ],
     "roast_level": "medium",
     "price_per_kg": 110.0,
     "is_available": true,

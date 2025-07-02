@@ -13,7 +13,8 @@
         ],
         "roast_level": "light",
         "price_per_kg": 130.0,
-        "is_available": true
+        "is_available": true,
+        "stock_grams": 1000
       },
       "grind_coffee_grams": 18,
       "milk_ml": 150,
@@ -56,7 +57,8 @@
         ],
         "roast_level": "medium",
         "price_per_kg": 110.0,
-        "is_available": true
+        "is_available": true,
+        "stock_grams": 800
       },
       "grind_coffee_grams": 16,
       "milk_ml": 200,
