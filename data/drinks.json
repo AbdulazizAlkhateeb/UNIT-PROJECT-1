@@ -6,7 +6,11 @@
       "bean": {
         "bean_name": "Ethiopian Yirgacheffe",
         "region": "Ethiopia",
-        "notes": ["floral", "citrus", "tea-like"],
+        "notes": [
+          "floral",
+          "citrus",
+          "tea-like"
+        ],
         "roast_level": "light",
         "price_per_kg": 130.0,
         "is_available": true
@@ -28,13 +32,13 @@
         "drink": "Cappuccino",
         "score": 5,
         "description": "Rich and balanced flavor",
-        "reviewed_at": "2025-06-01T10:00:00"
+        "reviewed_at": "2025-06-01 10:00:00"
       },
       {
         "drink": "Cappuccino",
         "score": 4,
         "description": "Smooth milk texture",
-        "reviewed_at": "2025-06-15T15:30:00"
+        "reviewed_at": "2025-06-15 15:30:00"
       }
     ]
   },
@@ -45,7 +49,11 @@
       "bean": {
         "bean_name": "Colombian Supremo",
         "region": "Colombia",
-        "notes": ["chocolate", "nutty", "caramel"],
+        "notes": [
+          "chocolate",
+          "nutty",
+          "caramel"
+        ],
         "roast_level": "medium",
         "price_per_kg": 110.0,
         "is_available": true
@@ -66,7 +74,7 @@
         "drink": "Latte",
         "score": 4,
         "description": "Nice sweetness, mild body",
-        "reviewed_at": "2025-06-12T09:15:00"
+        "reviewed_at": "2025-06-12 09:15:00"
       }
     ]
   }
