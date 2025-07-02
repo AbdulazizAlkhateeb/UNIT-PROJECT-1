@@ -4,6 +4,8 @@ from classes.drinks import Drink
 from classes.recipe import Recipe
 from classes.beans import Beans
 from utils.file_handler import load_json, save_json
+from utils.Ai_API import improve_recipe_with_gemini
+
 
 DRINKS_FILE = "./data/drinks.json"
 BEANS_FILE = "./data/beans.json"
@@ -161,6 +163,32 @@ def show_all_ratings():
 
     input(Fore.RED + "\n>> Press Enter to continue..." + Style.RESET_ALL)
 
+
+
+#
+# def ai_improve_drink_recipe(drink):
+#     recipe = drink.get_recipe()
+#     ratings = drink.get_ratings()
+#
+#     if not ratings:
+#         print(Fore.RED + "No ratings found. Cannot improve recipe.\n" + Style.RESET_ALL)
+#         return
+#
+#     last_review = ratings[-1].get_description()
+#     confirm = input("Would you like AI to improve the recipe based on the latest review? (y/n): ")
+#
+#     if confirm.lower() != "y":
+#         return
+#
+#     recipe_dict = {
+#         "grind_coffee_grams": recipe.get_grind_coffee_grams(),
+#         "milk_ml": recipe.get_milk_ml(),
+#         "ratio": recipe.get_ratio(),
+#         "grind_size": recipe.get_grind_size()
+#     }
+#
+#     updated = improve_recipe_with_gemini(recipe_dict, last_review)
+#
 
 
 
